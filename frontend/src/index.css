@@ -1,0 +1,114 @@
+main{
+    min-height: 80vh;
+}
+h1{
+    font-size: 1.8rem;
+    padding: 1rem 0;
+}
+
+h2{
+    font-size: 1.4rem;
+    padding: 0.5rem 0;
+}
+h3{
+    padding: 1rem 0;
+}
+.rating{
+    margin: 0.1em;
+}
+.price-card-span{
+    font-size: 2rem;
+    font-weight: 700;
+}
+.carousel img{
+    display: block;
+    height: 350px;
+    width: 390px;
+    padding: 30px;
+    margin: 40px;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.carousel a{
+ 
+    margin: 0 auto;
+}
+.carousel-caption h2{
+    transform: translateY(-315px);
+    color: azure;
+}
+@media (max-width: 900px) {
+    .carousel-caption h2 {
+        font-size: 2.5vw;
+    }
+}
+.latest-products-container{
+    /* border: 1px solid red; */
+    /* box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0, 0, 0, 0.06); */
+    position: relative;
+}
+.pagination{
+    position: absolute;
+    bottom: 10;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    justify-content: center;
+}
+.card{
+
+    min-height: 450px;
+    margin: 0 auto;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.3s ease-in-out;
+}
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Увеличить тень при наведении */
+}
+.card-img{
+    border-radius: 0.375rem;
+    transition: transform 0.6s ease-in-out;
+}
+.card-img:hover {
+    transform: scale(1.01);
+}
+.card-title{
+    text-align: center;
+    font-size: 1.3rem;
+    min-height: 100px;
+}
+.card a{
+    text-decoration: none;
+    font-weight: 800;
+}
+.card-price{
+    text-align: center;
+    font-weight: 800;
+    font-size: 1.8rem;
+}
+.card-rating{
+    text-align: center;
+    font-weight: 200;
+}
+
+
+.list-group-item a{
+    text-decoration: none;
+    
+}
+.cart-product-name{
+ 
+}
+.list-group-item button{
+    /* background-color: #bf1414; */
+    width: 100%;
+    /* margin-top: 50px; */
+}
+.btn-checkout{
+    background-color: #d44747;
+    /* width: 100%; */
+    /* border-radius: 25px; */
+}
