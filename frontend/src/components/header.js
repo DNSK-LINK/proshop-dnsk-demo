@@ -66,10 +66,6 @@ function Header() {
                   <LinkContainer to="/admin/orderslist">
                     <NavDropdown.Item>Orders List</NavDropdown.Item>
                   </LinkContainer>
-
-                  <LinkContainer to="/admin/new">
-                    <NavDropdown.Item>New feature</NavDropdown.Item>
-                  </LinkContainer>
                 </NavDropdown>
               )}
             </Nav>
