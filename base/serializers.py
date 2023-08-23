@@ -4,6 +4,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Product, Order, OrderItem, ShippingAddress, Review
 
 
+
+
 class ProductSerializer(serializers.ModelSerializer):
 
     reviews = serializers.SerializerMethodField(read_only=True)
@@ -20,13 +22,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
 
-    
-
     class Meta:
         model = Review
         fields = '__all__'
 
-    
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -38,26 +37,23 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['_id', 'username', 'email', 'name', 'isAdmin']
         
-
     def get_name(self, obj):
         name = obj.first_name
         if name == '':
             name = obj.email
-        # print (obj)
         return name
 
     def get__id(self, obj):
-        
         return obj.id
     
-
     def get_isAdmin(self, obj):
-
         return obj.is_staff
     
 
 class UserSerializerWithToken(UserSerializer):
+
     token = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = User
         fields = ['id', '_id', 'username', 'email', 'name', 'isAdmin', 'token']
@@ -67,23 +63,26 @@ class UserSerializerWithToken(UserSerializer):
         return str(token.access_token)
     
 
-
 class ShippingAddressSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ShippingAddress
         fields = '__all__'
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = OrderItem
         fields = '__all__'
 
 
 class OrderSerializer(serializers.ModelSerializer):
+
     orderItems = serializers.SerializerMethodField(read_only=True)
     user = serializers.SerializerMethodField(read_only=True)
     shippingAddress = serializers.SerializerMethodField(read_only=True)
+    
     class Meta:
         model = Order
         fields = '__all__'

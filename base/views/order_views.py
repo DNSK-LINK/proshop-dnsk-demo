@@ -15,9 +15,11 @@ from datetime import datetime
 
                         # Create your views here.
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def addOrderItems(request):
+
     user = request.user
     data = request.data
     orderItems = data['orderItems']
@@ -25,16 +27,13 @@ def addOrderItems(request):
     if orderItems and len(orderItems) == 0:
         return Response({'detail': 'No Order Items'}, status=status.HTTP_400_BAD_REQUEST)
     else:
-        # (1) Create Order
         order = Order.objects.create(
             user=user,
             paymentMethod=data['paymentMethod'],
             taxPrice=data['taxPrice'],
             shippingPrice=data['shippingPrice'],
             totalPrice=data['totalPrice'],
-
         )
-        # (2) Create shipping ShippingAddress
         shipping = ShippingAddress.objects.create(
             order=order,
             address=data['shippingAddress']['address'],
@@ -42,10 +41,8 @@ def addOrderItems(request):
             zipCode=data['shippingAddress']['zip'],
             country=data['shippingAddress']['country'],
         )
-        # (3) Create order items and set order to orderItem relationship
         for i in orderItems:
             product = Product.objects.get(_id=i['product'])
-
             item = OrderItem.objects.create(
                 product=product,
                 order=order,
@@ -54,8 +51,6 @@ def addOrderItems(request):
                 price=i['price'],
                 image=product.image.url,
             )
-
-        # (4) Update stock
             product.countInStock -= item.qty
             product.save()
 
@@ -66,6 +61,7 @@ def addOrderItems(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getMyOrders(request):
+
     user = request.user
     orders = user.order_set.all()
     serializer = OrderSerializer(orders, many=True)
@@ -75,6 +71,7 @@ def getMyOrders(request):
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def getOrders(request):
+
     orders = Order.objects.all()
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
@@ -84,8 +81,7 @@ def getOrders(request):
 @permission_classes([IsAuthenticated])
 def getOrderById(request, pk):
 
-    user = request.user
-    
+    user = request.user  
 
     try:
         order = Order.objects.get(_id=pk)
@@ -101,8 +97,8 @@ def getOrderById(request, pk):
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def updateOrderToPaid(request, pk):
-    order = Order.objects.get(_id=pk)
 
+    order = Order.objects.get(_id=pk)
     order.isPaid = True
     order.paidAt = datetime.now()
     order.save()
@@ -112,8 +108,8 @@ def updateOrderToPaid(request, pk):
 @api_view(['PUT'])
 @permission_classes([IsAdminUser])
 def updateOrderToDeliver(request, pk):
-    order = Order.objects.get(_id=pk)
 
+    order = Order.objects.get(_id=pk)
     order.isDelivered = True
     order.deliveredAt = datetime.now()
     order.save()

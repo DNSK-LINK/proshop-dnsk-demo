@@ -12,9 +12,7 @@ from base.serializers import ProductSerializer
 from base.models import Product, Review
 
 
-
                         # Create your views here.
-
 
 
 @api_view(['GET'])
@@ -32,25 +30,15 @@ def getProducts(request):
 
     try:
         products = paginator.page(page)
-        # print('Page number recieved successfully')
-        # print("API response getProducts keyword", query)
-        # print("API response getProducts Page", page)
     except PageNotAnInteger:
         products = paginator.page(1)
-        # print('Page number is Not an integer')
-        # print("API response getProducts Page", page)
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
-        # print('products = paginator.page(paginator.num_pages)')
-        # print("API response getProducts Page", page)
-
 
     if page == None or str(page) == "null":
         page = 1
 
     page = int(page)
-
-    
 
     serializer = ProductSerializer(products, many=True)
 
@@ -62,11 +50,11 @@ def getTopProducts(request):
 
     products = Product.objects.filter(rating__gte=4).order_by('-rating')[0:5]
     serializer = ProductSerializer(products, many=True)
-    # print(serializer.data)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def getProduct(request, pk):
+
     product = Product.objects.get(_id=pk)
     serializer = ProductSerializer(product, many=False)
     return Response(serializer.data)
@@ -75,6 +63,7 @@ def getProduct(request, pk):
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def createProduct(request):
+
     user = request.user
     product = Product.objects.create(
         user=user,
@@ -95,7 +84,6 @@ def updateProduct(request, pk):
 
     data = request.data
     product = Product.objects.get(_id=pk)
-
     product.name = data['name']
     product.price = data['price']
     product.brand = data['brand']
@@ -112,6 +100,7 @@ def updateProduct(request, pk):
 @api_view(['DELETE'])
 @permission_classes([IsAdminUser])
 def deleteProduct(request, pk):
+
     product = Product.objects.get(_id=pk)
     product.delete()
     return Response('Product deleted successfully')
@@ -122,13 +111,10 @@ def deleteProduct(request, pk):
 def uploadImage(request):
 
     data = request.data
-    
     product_id = data['product_id']
     product = Product.objects.get(_id=product_id)
-
     product.image = request.FILES.get('image')
     product.save()
-
     return Response('Image uploaded successfully')
 
 
@@ -138,7 +124,6 @@ def createProductReview (request, pk):
     product = Product.objects.get(_id=pk)
     user = request.user
     data = request.data
-
     alreadyExists = product.review_set.filter(user=user).exists()
 
     if alreadyExists:
